@@ -1,30 +1,40 @@
-# Verificación del paquete
+# Verificación de Aula Conecta
 
-Fecha: 20 de octubre de 2026.
+Actualización: 20 de octubre de 2026.
 
-## Comprobaciones realizadas
+## Cambios de esta versión
 
-| Componente | Resultado |
+- IA como apoyo transversal para consultar fuentes, preparar clases y crear o adaptar materiales; uso opcional y con revisión humana.
+- Pestañas de NotebookLM y Canva con propósito, pasos, ejemplos, acceso y límites.
+- Cinco rutas formativas: Forms (CETA/UNAM), GeoGebra (recurso oficial), Classroom (Mediateca EducaMadrid), NotebookLM (formación docente MINED El Salvador) y Canva (Design School).
+- Videos mediante enlaces externos: sin reproductores, miniaturas remotas ni reproducción automática.
+- Generador local para seis productos: presentación, plan, infografía, cuestionario, actividad con rúbrica y guion.
+- Retirada del inicio de la tarjeta “Tu trabajo permanece en esta página”. La información de privacidad permanece en Referencias y créditos.
+- Guía docente de ocho páginas y protocolo de tres, con vistas imprimibles y copia sin conexión sincronizada.
+
+## Pruebas de esta actualización
+
+Se ejecutaron **211 comprobaciones funcionales y estructurales con jsdom**, sin errores de JavaScript. Es un DOM simulado, no un navegador visual.
+
+| Componente | Comprobación |
 | --- | --- |
-| Navegación | Nueve secciones, estado activo, anclas internas, retorno al inicio ante un enlace desconocido y salto al contenido. |
-| Lista docente | Marcado de los 15 criterios, recuento y limpieza. |
-| Herramientas | Selección de pestañas, navegación con flechas y teclas Inicio/Fin. |
-| Matemática | Cinco pasos con límites de avance; cuatro respuestas correctas, signo menos Unicode, edición, dos niveles de pistas, equivalencia sin simplificar, rechazo de radicando cero y entradas vacías, reinicio. |
-| Exportaciones | Seis tipos de TXT: reflexión, PISTA, AEE, planificación, incidencias e instrucción para IA. Se comprobó contenido, descarga parcial donde corresponde y tratamiento de texto como texto. |
-| AEE | Exige los tres apartados; rechaza respuestas compuestas solo por espacios y permite limpiar. No evalúa calidad automáticamente. |
-| Generador | Campos obligatorios, contexto de la instrucción, edición, copia alternativa, descarga y limpieza. No llama a una IA. |
-| Impresión | Preparación de copias del texto escrito, apertura de procedimientos, selección del bloque y restauración de la vista tras el evento de impresión. |
-| Menú móvil | Estado abierto/cerrado, fondo inerte, foco, recorrido de Tab, Escape y retorno al modo escritorio en una simulación de la condición de ancho. |
-| Recursos locales | 119 referencias locales en el paquete principal y 117 en la copia sin conexión: archivos y anclas existentes. |
-| HTML y accesibilidad estructural | 150 identificadores revisados sin duplicados dentro de cada página; etiquetas de los campos y 23 referencias ARIA válidas. Iconos decorativos fuera del lector de pantalla. |
-| CSS y JavaScript | Hojas de estilo analizadas sin errores; sintaxis de los dos scripts válida. Sin llamadas de red ni persistencia de respuestas en el código de la aplicación. |
-| PDF | Ocho archivos, 18 páginas en total, tamaño carta; dos páginas de rúbricas horizontales. Todas las páginas renderizadas y revisadas visualmente, sin desbordamientos detectados. |
-| ZIP | Integridad de ambos archivos, contenido en la raíz, rutas relativas, `.nojekyll` y enlaces internos comprobados. La copia sin conexión no contiene un ZIP recursivo ni un enlace a otro ZIP ausente. |
+| Navegación | Nueve secciones, una visible a la vez, anclas a las pestañas y regreso a Inicio para una ruta desconocida. |
+| Herramientas | Siete pestañas; selección y teclas Inicio/Fin. Los enlaces abren el panel antes de situar el foco. |
+| Generador | Seis productos con estructura específica, fuente, contexto y extensión; diapositivas solo para presentación, rechazo de espacios y reinicio. |
+| Matemática | Cinco pasos, cuatro respuestas correctas, signo menos Unicode, equivalencia sin simplificar y rechazo de radicando cero. |
+| Exportaciones | Seis tipos de TXT con contenido etiquetado y sin valores indefinidos. No se envían a un docente ni a un servidor. |
+| Lista y AEE | Recuento de 15 criterios y limpieza; AEE exige sus campos y recuerda la valoración humana. |
+| Impresión | Preparación y restauración de la pestaña; los paneles se abren para imprimir herramientas completas. |
+| Menú móvil | Apertura, fondo inerte y cierre con Escape bajo una condición de ancho simulada. |
+| Estructura | Identificadores únicos, referencias ARIA válidas, campos etiquetados y enlaces externos protegidos. |
+| CSS y privacidad | Hoja de estilo analizada; sin red ni persistencia de respuestas en la lógica de la aplicación. |
+| Materiales | Ocho PDF, 21 páginas. Los dos PDF actualizados se renderizaron y revisaron visualmente; se conservaron los otros seis. |
+| Copia sin conexión | ZIP sin archivos recursivos, con sitio, PDF y vistas imprimibles. Archivos y anclas locales comprobados. |
 
-Las funciones se comprobaron con **jsdom 26.1.0**, un DOM simulado. La ejecución final no registró errores de JavaScript. Los resultados de Matemática se contrastaron con el desarrollo de las fichas y los ejercicios de la propuesta. Las tarjetas de descarga muestran el tamaño real y el número de páginas de cada PDF.
+Los enlaces formativos se contrastaron con páginas de sus autores o instituciones. Esto no garantiza disponibilidad permanente ni reproducción en todas las redes. El video de Classroom es de 2022: el sitio lo advierte y enlaza la ayuda oficial actual. Las funciones de IA pueden variar por cuenta, plan, dispositivo o región.
 
-## Alcance de la revisión
+## Límites
 
-No estuvo disponible un navegador real en este entorno. Por tanto, esta revisión **no confirma la apariencia en pantallas reales, la interacción táctil, un lector de pantalla ni el resultado final del diálogo de impresión HTML**. Las reglas para adaptar columnas, menú, campos y tablas a distintos anchos están incluidas y fueron inspeccionadas en el código. La distribución fija de los PDF sí se revisó mediante imágenes de sus páginas.
+La instalación del navegador de pruebas no estuvo disponible. Las pruebas locales no certifican apariencia en un teléfono físico, interacción táctil, lector de pantalla ni el diálogo de impresión de cada navegador. La revisión visual de los PDF sí se realizó sobre las páginas renderizadas.
 
-Antes de compartir la URL publicada, abre el sitio en computadora y teléfono y recorre una actividad, una exportación TXT, una impresión, los PDF y la copia sin conexión. GitHub Pages solo podrá comprobarse en su dirección definitiva después de que el usuario publique el repositorio. El paquete no contiene una URL pública inventada.
+La publicación técnica no demuestra implementación ni efectos en el aprendizaje. Antes de una aplicación docente, revisar enlaces, permisos, fuentes, accesibilidad y alternativas de acceso con el grupo.

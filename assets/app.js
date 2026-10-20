@@ -64,6 +64,8 @@
     const page = target && target.closest('[data-page]') || pages[0];
     currentPage = page;
     pages.forEach(item => { item.hidden = item !== page; });
+    const toolPanel = target && target.closest('[data-tool-panel]');
+    if (toolPanel) selectTool(byId(toolPanel.getAttribute('aria-labelledby')), false);
     navLinks.forEach(link => {
       if (link.dataset.route === page.id) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
@@ -190,18 +192,61 @@
 
   const promptForm = byId('prompt-form');
   const promptResult = byId('prompt-result');
+  const productSelect = byId('prompt-producto');
+  const productDescriptions = {
+    presentacion: 'Un guion de diapositivas con ejemplos y preguntas, para revisar antes de diseñarlo.',
+    planificacion: 'Una secuencia de clase con tiempos, recursos, evidencias y alternativas de participación.',
+    infografia: 'Un guion visual con mensajes breves, fuentes y una versión escrita accesible.',
+    cuestionario: 'Preguntas con respuestas esperadas y comentarios explicativos para revisión docente.',
+    actividad: 'Una tarea contextualizada con evidencia individual, rúbrica y oportunidad de corrección.',
+    guion: 'Un guion de audio o video con narración, escenas y una alternativa escrita.'
+  };
+  function syncPromptProduct() {
+    byId('prompt-cantidad-field').hidden = productSelect.value !== 'presentacion';
+    byId('prompt-product-help').textContent = productDescriptions[productSelect.value];
+  }
+  productSelect.addEventListener('change', syncPromptProduct);
+  syncPromptProduct();
   promptForm.addEventListener('submit', event => {
     event.preventDefault();
     if (!validRequired(promptForm, 'prompt-status')) return;
     const value = name => promptForm.elements.namedItem(name).value.trim();
+    const products = {
+      presentacion: {
+        name: 'una presentación educativa de ' + value('cantidad') + ' diapositivas',
+        structure: 'Organiza cada diapositiva con título breve, idea central, ejemplo y una pregunta de comprobación. Sugiere un apoyo visual pertinente, sin inventar imágenes de fuentes. Incluye las respuestas esperadas por separado para revisión docente.'
+      },
+      planificacion: {
+        name: 'un plan de clase',
+        structure: 'Organiza inicio, desarrollo y cierre con tiempos orientativos, instrucciones, materiales, conocimientos previos y evidencias individuales. Incluye una comprobación de comprensión, retroalimentación y una continuación flexible en casa.'
+      },
+      infografia: {
+        name: 'el guion de una infografía educativa',
+        structure: 'Propón un título, hasta cinco bloques de mensajes breves, un ejemplo comprobado, sugerencias visuales, referencias y una pregunta de reflexión. Añade una versión equivalente en texto. No presentes imágenes o cifras no verificadas como evidencia.'
+      },
+      cuestionario: {
+        name: 'un cuestionario formativo',
+        structure: 'Presenta preguntas claras alineadas con el objetivo, al menos una que exija explicar el razonamiento y, por separado, una clave docente con justificación y comentarios ante errores frecuentes. Señala qué preguntas requieren revisión humana; no atribuyas corrección automática a respuestas abiertas.'
+      },
+      actividad: {
+        name: 'una actividad de aprendizaje con rúbrica',
+        structure: 'Incluye objetivo, recursos, pasos, tiempo orientativo, evidencia individual y una rúbrica breve de criterios observables con niveles descritos. Propón retroalimentación concreta, un segundo intento y una alternativa equivalente sin IA.'
+      },
+      guion: {
+        name: 'un guion educativo de audio o video',
+        structure: 'Organiza una apertura, una explicación breve, un ejemplo y un cierre con pregunta. Distingue narración, escenas o apoyos visuales y tiempos orientativos. Prepara transcripción, sugerencias de subtítulos y una ficha escrita equivalente. No afirmes haber producido un archivo audiovisual.'
+      }
+    };
+    const product = products[value('producto')];
     promptResult.value = [
-      'Actúa como apoyo al diseño de una presentación educativa. Escribe un borrador de ' + value('cantidad') + ' diapositivas de ' + value('asignatura') + '.',
+      'Actúa como apoyo a la preparación docente. Escribe un borrador de ' + product.name + ' para ' + value('asignatura') + '.',
       'Tema: ' + value('tema') + '.',
       'Destinatarios: ' + (value('destinatarios') || 'primer año de bachillerato, Modalidad Flexible') + '.',
       'Objetivo de aprendizaje: ' + value('objetivo'),
       'Fuente oficial indicada por el docente: ' + value('fuente'),
+      value('extension') ? 'Duración o extensión orientativa: ' + value('extension') + '.' : '',
       'Usa únicamente información que pueda comprobarse en la fuente. Si no puedes consultarla o falta el contenido, pídelo y señala lo que requiere verificación. No inventes citas, páginas, datos, enlaces ni resultados.',
-      'Organiza cada diapositiva con título breve, idea central, ejemplo y una pregunta de comprobación. Incluye instrucciones claras y una actividad que permita explicar el razonamiento. Presenta las respuestas esperadas por separado para revisión docente.',
+      product.structure,
       'Usa lenguaje comprensible, poco texto y recursos que puedan sustituirse por una ficha impresa. Evita videos obligatorios y no solicites cuentas de estudiantes.',
       'Para Matemática, muestra cada paso, comprueba las operaciones y explica los errores frecuentes. Para Estudios Sociales, diferencia hechos, opiniones y evidencia, reconoce autoría y ofrece preguntas abiertas sin imponer una posición.',
       'Incluye una propuesta de retroalimentación y una tarea breve de continuación en casa con alternativa sin conexión. No atribuyas mejoras de aprendizaje a una intervención no evaluada.',
@@ -212,7 +257,7 @@
     promptResult.focus();
   });
   promptForm.addEventListener('reset', () => {
-    setTimeout(() => { promptResult.value = ''; }, 0);
+    setTimeout(() => { promptResult.value = ''; syncPromptProduct(); }, 0);
     $$('input,textarea,select', promptForm).forEach(field => { field.setCustomValidity(''); field.removeAttribute('aria-invalid'); });
     status('prompt-status', 'Campos e instrucción limpiados.');
   });
@@ -329,6 +374,7 @@
     }
     $$('details', target).forEach(item => { printState.details.push([item, item.open]); item.open = true; });
     $$('[data-math-step]', target).forEach(item => { printState.steps.push([item, item.hidden]); item.hidden = false; });
+    $$('[data-tool-panel]', target).forEach(item => { printState.steps.push([item, item.hidden]); item.hidden = false; });
     $$('input:not([type=checkbox]),textarea,select', target).forEach(field => {
       const copy = document.createElement('div');
       copy.className = 'print-answer'; copy.textContent = field.value.trim() || '[Sin completar]';
