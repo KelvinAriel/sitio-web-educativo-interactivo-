@@ -8,6 +8,8 @@ Sitio público: [Aula Conecta](https://kelvinariel.github.io/sitio-web-educativo
 
 Actualización del 20 de octubre de 2026: IA como apoyo transversal al docente; orientaciones de NotebookLM y Canva; cinco rutas de tutoriales externos; seis tipos de instrucciones para IA; guía y protocolo ampliados. La información de privacidad permanece en Referencias y créditos, sin la tarjeta anterior del inicio.
 
+Revisión para entrega: los tutoriales de Forms y Classroom usan los enlaces directos de YouTube aprobados por el autor. La guía docente, su vista imprimible y la copia sin conexión contienen los mismos enlaces. Las tarjetas identifican el canal, la fecha de publicación y la duración aproximada, y conservan las guías oficiales escritas.
+
 ## Abrirlo antes de publicar
 
 1. Extrae **todo** el ZIP en una carpeta.
