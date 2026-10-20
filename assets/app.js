@@ -239,11 +239,11 @@
     };
     const product = products[value('producto')];
     promptResult.value = [
-      'Actúa como apoyo a la preparación docente. Escribe un borrador de ' + product.name + ' para ' + value('asignatura') + '.',
+      'Actúa como apoyo a la preparación docente. Prepara como borrador ' + product.name + ' para ' + value('asignatura') + '.',
       'Tema: ' + value('tema') + '.',
       'Destinatarios: ' + (value('destinatarios') || 'primer año de bachillerato, Modalidad Flexible') + '.',
       'Objetivo de aprendizaje: ' + value('objetivo'),
-      'Fuente oficial indicada por el docente: ' + value('fuente'),
+      'Fuente autorizada indicada por el docente: ' + value('fuente'),
       value('extension') ? 'Duración o extensión orientativa: ' + value('extension') + '.' : '',
       'Usa únicamente información que pueda comprobarse en la fuente. Si no puedes consultarla o falta el contenido, pídelo y señala lo que requiere verificación. No inventes citas, páginas, datos, enlaces ni resultados.',
       product.structure,
